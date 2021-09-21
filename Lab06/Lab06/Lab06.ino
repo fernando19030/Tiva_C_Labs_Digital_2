@@ -1,4 +1,4 @@
-
+//Creamos las variables a utilizar en el circuito
 int player1 = 31;
 int player2 = 17;
 
@@ -33,17 +33,15 @@ int flag2 = 0;
 
 void setup() {
   // put your setup code here, to run once:
-  // initialize serial communication at 9600 bits per second:
-  Serial.begin(9600); 
   // make the on-board pushbutton's pin an input pullup:
-  pinMode(player1, INPUT_PULLUP);
+  pinMode(player1, INPUT_PULLUP); //Configuración de los botones
   pinMode(player2, INPUT_PULLUP);
 
-  pinMode(red, OUTPUT);
+  pinMode(red, OUTPUT);   //Configuración de la led RGB incluida en la placa
   pinMode(green, OUTPUT);
   pinMode(blue, OUTPUT);
 
-  pinMode(J1_1, OUTPUT);
+  pinMode(J1_1, OUTPUT);  //Configuración de los leds de ambos jugadores
   pinMode(J1_2, OUTPUT);
   pinMode(J1_3, OUTPUT);
   pinMode(J1_4, OUTPUT);
@@ -66,14 +64,14 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly: 
   // read the input pin:
-  int button1 = digitalRead(player1);
+  int button1 = digitalRead(player1); //Leemmos los botones constantemente y lo guardamos en una variable
   int button2 = digitalRead(player2);
 
-  if (start == 0) {
-    if (button1 == LOW || button2 == LOW) {
+  if (start == 0) { //Condición de comienzo
+    if (button1 == LOW || button2 == LOW) { //Cuando no ha comenzado el juego los botones activan la secuencia de inicio
       digitalWrite(red, LOW);
       digitalWrite(green, LOW);
-      digitalWrite(blue, LOW);
+      digitalWrite(blue, LOW);  //Limpiamos la led RGB
       
       digitalWrite(red, HIGH);
       delay(1000);
@@ -84,12 +82,12 @@ void loop() {
       digitalWrite(red, LOW);
       delay(1000);
       
-      start = 1;
+      start = 1;  //Termina la secuencia y comienza el juego
       digitalWrite(green, LOW); 
     }
 
     else {
-      digitalWrite(red, LOW);
+      digitalWrite(red, LOW);   //Si no se presionan los botones se limpian todas las leds y se reinician los contadores
       digitalWrite(green, LOW);
       digitalWrite(blue, LOW);
 
@@ -119,10 +117,10 @@ void loop() {
 
   else {  
     
-    if (flag1 == 0) { //Boton del jugador 1
+    if (flag1 == 0) { //Boton del jugador 1 
       if (button1 == LOW) {
-        counter1 = counter1 + 1;
-        flag1 = 1;
+        counter1 = counter1 + 1;  //incrementamos el contador al presionar el boton
+        flag1 = 1;  //Encendemos la bandera y si no dejamos de presionar no volvemos a aumentar el contador
       }
       else {
       }
@@ -130,13 +128,13 @@ void loop() {
 
     if (flag1 == 1) {
       if ( button1 == HIGH) {
-        flag1 = 0;
+        flag1 = 0;    //Cuando dejamos de presionar bajamos la bandera
       }
       else {
       }
     }
 
-    if (flag2 == 0) { //Boton del jugador 2
+    if (flag2 == 0) { //Boton del jugador 2, el cual tiene el mismo funcionamiento que el boton del jugador uno
       if (button2 == LOW) {
         counter2 = counter2 + 1;
         flag2 = 1;
@@ -153,9 +151,9 @@ void loop() {
       }
     }
 
-    switch (counter1) {
+    switch (counter1) { //Aqui realizamos el contador de decadas del jugador 1
       case 1: 
-        digitalWrite(J1_1, HIGH); 
+        digitalWrite(J1_1, HIGH);   //Al incrementarse el contador encendemos la led correspondiente y apagamos la led anterior
         break;
       case 2:
         digitalWrite(J1_1, LOW);
@@ -182,12 +180,12 @@ void loop() {
         digitalWrite(J1_7, HIGH); 
         break;
       case 8:
-        digitalWrite(J1_7, LOW);
+        digitalWrite(J1_7, LOW);  //Al llegar a 8 en el contador incrementamos la variable para pasar a otro caso
         digitalWrite(J1_8, HIGH);
         counter1 = counter1 + 1; 
         break;
       case 9:
-        digitalWrite(J1_8, LOW);
+        digitalWrite(J1_8, LOW);  //en donde prendemos la RGB de un color y limpiamos las variables de juego y contador
         digitalWrite(red, HIGH); 
         start = 0;
         counter1 = 0;
@@ -195,7 +193,7 @@ void loop() {
         break;
     }
 
-    switch (counter2) {
+    switch (counter2) {   //El switch del jugador dos funciona igual que el del jugador 1
       case 1: 
         digitalWrite(J2_1, HIGH); 
         break;
@@ -238,43 +236,5 @@ void loop() {
     }
     
   }
-
-  
-  
-
-/*
-  if (flag1 == 0) {
-    if (button1 == LOW) {
-      counter1 = counter1 + 1;
-      flag1 = 1;
-    }
-    else {
-    }
-  }
-
-  if (flag1 == 1) {
-    if ( button1 == HIGH) {
-      flag1 = 0;
-    }
-    else {
-    }
-  }
-
-  if (counter1 < 255) {
-    counter1 = 0;
-  } */
-
-  /*Serial.print("Player 1: ");
-  delay(100);*/
-  Serial.println(start);
-  delay(100);        // delay in between reads for stability
-  /*Serial.print("\r");
-  delay(100);
-  Serial.print("Player 2: ");
-  delay(100);
-  Serial.println(counter2);
-  delay(100);
-  Serial.print("\r");
-  delay(100);*/
   
 }
